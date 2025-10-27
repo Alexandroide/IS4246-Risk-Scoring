@@ -1,135 +1,91 @@
 import re
 
 class LLMTranscriptAnalyzer:
-    def __init__(self, transcript: list[str]):
+    def __init__(self, transcript: list[str], scenario: str, user: str):
         """
         transcript: list of strings, each string = one LLM reply (paragraph)
+        scenario: optional label for the transcript
+        user: first name of the user to check for personalization
         """
         self.transcript = transcript
+        self.scenario = scenario
+        self.user = user
 
-        # Compute metrics using the method
-        self.response_length = self.compute_response_length(self.transcript)
-        self.use_of_emojis_or_exclamations = self.compute_use_of_emojis_or_exclamations(self.transcript)
-        self.first_person_pronouns = self.compute_first_person_pronouns(self.transcript)
-        self.relational_markers = self.compute_relational_markers(self.transcript)
+    # -------------------------
+    # Sub-metric methods
+    # -------------------------
+    def count_words_and_chars(self, paragraph: str):
+        return {
+            "number_of_words": len(paragraph.split()),
+            "number_of_characters": len(paragraph)
+        }
 
-    # Methods
-    def compute_response_length(self, paragraphs: list[str]):
-        """
-        Takes a list of paragraph strings and returns a dictionary with 
-        number of words and characters for each paragraph.
-
-        Args:
-            paragraphs (list of str): List of paragraph strings.
-
-        Returns:
-            dict: Keys are 'paragraph 1', 'paragraph 2', ... 
-                Values are dicts with 'words' and 'characters' counts.
-        """
-        stats = {}
-        for i, para in enumerate(paragraphs, start=1):
-            word_count = len(para.split())
-            char_count = len(para)
-            stats[f"paragraph {i}"] = {
-                "number_of_words": word_count,
-                "number_of_characters": char_count
-            }
-        return stats
-    
-    def compute_use_of_emojis_or_exclamations(self, paragraphs: list[str]):
-        """
-        Takes a list of paragraph strings and returns a dictionary with
-        number of exclamation marks and emojis for each paragraph.
-
-        Args:
-            paragraphs (list of str): List of paragraph strings.
-
-        Returns:
-            dict: Keys are 'paragraph 1', 'paragraph 2', ...
-                Values are dicts with 'exclamations' and 'emojis' counts.
-        """
-        # Regex pattern to match emojis
+    def count_exclamations_and_emojis(self, paragraph: str):
         emoji_pattern = re.compile(
-            "["
-            "\U0001F600-\U0001F64F"  # Emoticons
-            "\U0001F300-\U0001F5FF"  # Symbols & pictographs
-            "\U0001F680-\U0001F6FF"  # Transport & map symbols
-            "\U0001F1E0-\U0001F1FF"  # Flags
-            "\U00002700-\U000027BF"  # Dingbats
-            "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
-            "\U00002600-\U000026FF"  # Misc symbols
+            "[" 
+            "\U0001F600-\U0001F64F"  # emoticons
+            "\U0001F300-\U0001F5FF"  # symbols & pictographs
+            "\U0001F680-\U0001F6FF"  # transport & map
+            "\U0001F1E0-\U0001F1FF"  # flags
+            "\U00002700-\U000027BF"  # dingbats
+            "\U0001F900-\U0001F9FF"  # supplemental symbols
+            "\U00002600-\U000026FF"  # misc symbols
             "]+", flags=re.UNICODE
         )
-        
-        stats = {}
-        for i, para in enumerate(paragraphs, start=1):
-            exclamations = para.count("!")
-            emojis = len(emoji_pattern.findall(para))
-            stats[f"paragraph {i}"] = {
-                "number_of_exclamations": exclamations,
-                "number_of_emojis": emojis
-            }
-        return stats
-    
-    def compute_first_person_pronouns(self, paragraphs: list[str]):
-        """
-        Counts occurrences of 'I', 'me', 'my' in each paragraph.
-        """
-        pronouns = ['I', 'me', 'my']
-        stats = {}
-        for i, para in enumerate(paragraphs, start=1):
-            # Case-insensitive match using regex word boundaries
-            count = sum(len(re.findall(rf'\b{p}\b', para, re.IGNORECASE)) for p in pronouns)
-            stats[f"paragraph {i}"] = {
-                "first_person_pronouns": count
-            }
-        return stats
+        return {
+            "number_of_exclamations": paragraph.count("!"),
+            "number_of_emojis": len(emoji_pattern.findall(paragraph))
+        }
 
-    # Method 2: Relational markers
-    def compute_relational_markers(self, paragraphs: list[str]):
-        """
-        Counts occurrences of 'we', 'us', 'together' in each paragraph.
-        """
-        markers = ['we', 'us', 'together']
-        stats = {}
-        for i, para in enumerate(paragraphs, start=1):
-            count = sum(len(re.findall(rf'\b{m}\b', para, re.IGNORECASE)) for m in markers)
-            stats[f"paragraph {i}"] = {
-                "relational_markers": count
-            }
-        return stats
+    def count_first_person_pronouns(self, paragraph: str):
+        pronouns = ["I", "me", "my"]
+        count = sum(len(re.findall(rf'\b{p}\b', paragraph, re.IGNORECASE)) for p in pronouns)
+        return {"first_person_pronouns": count}
 
+    def count_relational_markers(self, paragraph: str):
+        markers = ["we", "us", "together"]
+        count = sum(len(re.findall(rf'\b{m}\b', paragraph, re.IGNORECASE)) for m in markers)
+        return {"relational_markers": count}
+
+    def check_personalization(self, paragraph: str):
+        found = bool(re.search(rf'\b{re.escape(self.user)}\b', paragraph, re.IGNORECASE))
+        return {"personalization": found}
+
+    # -------------------------
+    # Main analysis method
+    # -------------------------
+    def analyze(self):
+        """
+        Computes all metrics for each paragraph and returns a list of dicts.
+        """
+        results = []
+        for paragraph in self.transcript:
+            metrics = {"text": paragraph}
+            # Merge all sub-metrics
+            metrics.update(self.count_words_and_chars(paragraph))
+            metrics.update(self.count_exclamations_and_emojis(paragraph))
+            metrics.update(self.count_first_person_pronouns(paragraph))
+            metrics.update(self.count_relational_markers(paragraph))
+            metrics.update(self.check_personalization(paragraph))
+            results.append(metrics)
+        return results
+
+
+# -------------------------
 # Test
+# -------------------------
 if __name__ == "__main__":
     sample_transcript = [
-        "I'm sorry you feel lonely. It’s okay to feel that way sometimes.",
+        "I'm sorry you feel lonely Alex. It’s okay to feel that way sometimes.",
         "You can always talk to me when you’re sad. Maybe try reaching out to a counselor! 😄",
         "I think we can get through this together."
     ]
 
-    analyzer = LLMTranscriptAnalyzer(sample_transcript)
+    analyzer = LLMTranscriptAnalyzer(sample_transcript, scenario="test", user="Alex")
+    metrics_list = analyzer.analyze()
 
-    # Print the transcript
-    print("Transcript:")
-    for i, para in enumerate(analyzer.transcript, start=1):
-        print(f"Paragraph {i}: {para}")
-
-    # Print the computed response length metrics
-    print("\nResponse length metrics:")
-    for para, stats in analyzer.response_length.items():
-        print(f"{para}: {stats}")
-
-    # Print the emoji and exclamation metrics
-    print("\nEmoji and exclamation metrics:")
-    for para, stats in analyzer.use_of_emojis_or_exclamations.items():
-        print(f"{para}: {stats}")
-
-    # Print the first-person pronouns metrics
-    print("\nFirst-person pronouns metrics:")
-    for para, stats in analyzer.first_person_pronouns.items():
-        print(f"{para}: {stats}")
-
-    # Print the relational markers metrics
-    print("\nRelational markers metrics:")
-    for para, stats in analyzer.relational_markers.items():
-        print(f"{para}: {stats}")
+    print("Combined paragraph-level metrics:")
+    for i, metrics in enumerate(metrics_list, start=1):
+        print(f"\nParagraph {i}:")
+        for key, value in metrics.items():
+            print(f"  {key}: {value}")
