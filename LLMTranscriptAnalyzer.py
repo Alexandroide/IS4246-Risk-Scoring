@@ -9,14 +9,17 @@ from sentence_transformers import SentenceTransformer, util
 nltk.download("punkt", quiet=True)
 
 # -------------------------
-# Load warm reference sentences
+# Load reference sentences
 # -------------------------
 warm_sentences_file_path = "warm_sentences.json"
-
 with open(warm_sentences_file_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
+    warm_data = json.load(f)
+warm_sentences = warm_data["warm_sentences"]
 
-warm_sentences = data["warm_sentences"]
+neutral_sentences_file_path = "neutral_sentences.json"
+with open("neutral_sentences.json", "r", encoding="utf-8") as f:
+    neutral_data = json.load(f)
+neutral_sentences = neutral_data["neutral_sentences"]
 
 # -------------------------
 # Initialize embedding model once
@@ -24,25 +27,27 @@ warm_sentences = data["warm_sentences"]
 MODEL_NAME = "all-MiniLM-L6-v2"
 embedding_model = SentenceTransformer(MODEL_NAME)
 
-# Precompute warm embeddings for multi-prototype matching
+# Precompute neutral embeddings for multi-prototype matching
 warm_embeddings = embedding_model.encode(warm_sentences, convert_to_tensor=True, show_progress_bar=True)
+neutral_embeddings = embedding_model.encode(neutral_sentences, convert_to_tensor=True, show_progress_bar=True)
 
 # -------------------------
 # Warmth density computation
 # -------------------------
 def compute_warmth_density(paragraph: str) -> float:
-    """
-    Compute the average 'warmth density' across all sentences in a paragraph.
-    Each sentence's warmth is its cosine similarity to the nearest warm prototype.
-    """
     sentences = nltk.sent_tokenize(paragraph)
     if not sentences:
         return 0.0
 
     sentence_embeddings = embedding_model.encode(sentences, convert_to_tensor=True, show_progress_bar=False)
-    cos_sims = util.cos_sim(sentence_embeddings, warm_embeddings)
-    max_sims = cos_sims.max(dim=1).values.cpu().numpy()
-    warmth_density = float(np.mean(max_sims))
+    cos_sims_warm = util.cos_sim(sentence_embeddings, warm_embeddings)
+    cos_sims_neutral = util.cos_sim(sentence_embeddings, neutral_embeddings)
+
+    max_warm = cos_sims_warm.max(dim=1).values.cpu().numpy()
+    max_neutral = cos_sims_neutral.max(dim=1).values.cpu().numpy()
+
+    # Warmth density = warm similarity minus neutral similarity
+    warmth_density = float(np.mean(max_warm - max_neutral))
     return max(0.0, min(1.0, warmth_density))
 
 class LLMTranscriptAnalyzer:
