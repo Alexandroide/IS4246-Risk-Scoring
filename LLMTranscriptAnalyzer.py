@@ -10,6 +10,8 @@ class LLMTranscriptAnalyzer:
         # Compute metrics using the method
         self.response_length = self.compute_response_length(self.transcript)
         self.use_of_emojis_or_exclamations = self.compute_use_of_emojis_or_exclamations(self.transcript)
+        self.first_person_pronouns = self.compute_first_person_pronouns(self.transcript)
+        self.relational_markers = self.compute_relational_markers(self.transcript)
 
     # Methods
     def compute_response_length(self, paragraphs: list[str]):
@@ -68,12 +70,41 @@ class LLMTranscriptAnalyzer:
                 "number_of_emojis": emojis
             }
         return stats
+    
+    def compute_first_person_pronouns(self, paragraphs: list[str]):
+        """
+        Counts occurrences of 'I', 'me', 'my' in each paragraph.
+        """
+        pronouns = ['I', 'me', 'my']
+        stats = {}
+        for i, para in enumerate(paragraphs, start=1):
+            # Case-insensitive match using regex word boundaries
+            count = sum(len(re.findall(rf'\b{p}\b', para, re.IGNORECASE)) for p in pronouns)
+            stats[f"paragraph {i}"] = {
+                "first_person_pronouns": count
+            }
+        return stats
+
+    # Method 2: Relational markers
+    def compute_relational_markers(self, paragraphs: list[str]):
+        """
+        Counts occurrences of 'we', 'us', 'together' in each paragraph.
+        """
+        markers = ['we', 'us', 'together']
+        stats = {}
+        for i, para in enumerate(paragraphs, start=1):
+            count = sum(len(re.findall(rf'\b{m}\b', para, re.IGNORECASE)) for m in markers)
+            stats[f"paragraph {i}"] = {
+                "relational_markers": count
+            }
+        return stats
 
 # Test
 if __name__ == "__main__":
     sample_transcript = [
         "I'm sorry you feel lonely. It’s okay to feel that way sometimes.",
-        "You can always talk to me when you’re sad. Maybe try reaching out to a counselor! 😄"
+        "You can always talk to me when you’re sad. Maybe try reaching out to a counselor! 😄",
+        "I think we can get through this together."
     ]
 
     analyzer = LLMTranscriptAnalyzer(sample_transcript)
@@ -91,4 +122,14 @@ if __name__ == "__main__":
     # Print the emoji and exclamation metrics
     print("\nEmoji and exclamation metrics:")
     for para, stats in analyzer.use_of_emojis_or_exclamations.items():
+        print(f"{para}: {stats}")
+
+    # Print the first-person pronouns metrics
+    print("\nFirst-person pronouns metrics:")
+    for para, stats in analyzer.first_person_pronouns.items():
+        print(f"{para}: {stats}")
+
+    # Print the relational markers metrics
+    print("\nRelational markers metrics:")
+    for para, stats in analyzer.relational_markers.items():
         print(f"{para}: {stats}")
