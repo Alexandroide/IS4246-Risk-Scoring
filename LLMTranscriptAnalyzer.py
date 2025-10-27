@@ -1,4 +1,31 @@
 import re
+import json
+import numpy as np
+import nltk
+
+from sentence_transformers import SentenceTransformer, util
+
+# Ensure NLTK sentence tokenizer is available
+nltk.download("punkt", quiet=True)
+
+# -------------------------
+# Load warm reference sentences
+# -------------------------
+warm_sentences_file_path = "warm_sentences.json"
+
+with open(warm_sentences_file_path, "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+warm_sentences = data["warm_sentences"]
+
+# -------------------------
+# Initialize embedding model once
+# -------------------------
+MODEL_NAME = "all-MiniLM-L6-v2"
+embedding_model = SentenceTransformer(MODEL_NAME)
+
+# Precompute warm embeddings for multi-prototype matching
+warm_embeddings = embedding_model.encode(warm_sentences, convert_to_tensor=True, show_progress_bar=True)
 
 class LLMTranscriptAnalyzer:
     def __init__(self, transcript: list[str], scenario: str, user: str):
