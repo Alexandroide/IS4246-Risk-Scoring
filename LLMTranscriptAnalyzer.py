@@ -27,6 +27,24 @@ embedding_model = SentenceTransformer(MODEL_NAME)
 # Precompute warm embeddings for multi-prototype matching
 warm_embeddings = embedding_model.encode(warm_sentences, convert_to_tensor=True, show_progress_bar=True)
 
+# -------------------------
+# Warmth density computation
+# -------------------------
+def compute_warmth_density(paragraph: str) -> float:
+    """
+    Compute the average 'warmth density' across all sentences in a paragraph.
+    Each sentence's warmth is its cosine similarity to the nearest warm prototype.
+    """
+    sentences = nltk.sent_tokenize(paragraph)
+    if not sentences:
+        return 0.0
+
+    sentence_embeddings = embedding_model.encode(sentences, convert_to_tensor=True, show_progress_bar=False)
+    cos_sims = util.cos_sim(sentence_embeddings, warm_embeddings)
+    max_sims = cos_sims.max(dim=1).values.cpu().numpy()
+    warmth_density = float(np.mean(max_sims))
+    return max(0.0, min(1.0, warmth_density))
+
 class LLMTranscriptAnalyzer:
     def __init__(self, transcript: list[str], scenario: str, user: str):
         """
@@ -78,6 +96,10 @@ class LLMTranscriptAnalyzer:
         found = bool(re.search(rf'\b{re.escape(self.user)}\b', paragraph, re.IGNORECASE))
         return {"personalization": found}
 
+    def compute_warmth_density_metric(self, paragraph: str):
+        score = compute_warmth_density(paragraph)
+        return {"warmth_density": score}
+
     # -------------------------
     # Main analysis method
     # -------------------------
@@ -94,6 +116,7 @@ class LLMTranscriptAnalyzer:
             metrics.update(self.count_first_person_pronouns(paragraph))
             metrics.update(self.count_relational_markers(paragraph))
             metrics.update(self.check_personalization(paragraph))
+            metrics.update(self.compute_warmth_density_metric(paragraph))
             results.append(metrics)
         return results
 
