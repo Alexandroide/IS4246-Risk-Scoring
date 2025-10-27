@@ -2,21 +2,28 @@ import re
 from statistics import mean
 
 class LLMTranscriptAnalyzer:
-    def __init__(self, transcript):
+    def __init__(self, transcript: list[str]):
         """
-        transcript: list of list of sentences (each sublist = one LLM reply)
+        transcript: list of strings, each string = one LLM reply (paragraph)
         Example:
             [
-                ["I'm sorry you feel lonely.", "It’s okay to feel that way sometimes."],
-                ["You can always talk to me when you’re sad.", "Maybe try reaching out to a counselor."]
+                "I'm sorry you feel lonely. It’s okay to feel that way sometimes.",
+                "You can always talk to me when you’re sad. Maybe try reaching out to a counselor."
             ]
         """
         self.transcript = transcript
-        self.text_blocks = [" ".join(block) for block in transcript]
-        self.all_text = " ".join(self.text_blocks)
-        self.num_responses = len(self.text_blocks)
-        self.num_sentences = sum(len(block) for block in transcript)
-        self.num_words = sum(len(block_text.split()) for block_text in self.text_blocks)
+        self.text_blocks = transcript  # Each element is already a full paragraph/reply
+        self.all_text = " ".join(transcript)
+        self.num_responses = len(transcript)
+
+        # Count sentences using regex (split by ., ?, !)
+        self.num_sentences = sum(
+            len([s for s in re.split(r'[.!?]+', block) if s.strip()])
+            for block in transcript
+        )
+
+        # Count total words
+        self.num_words = sum(len(block.split()) for block in transcript)
 
         # Initialize nested analyzers
         self.empathy = self.EmpathyAndEngagement(self)
@@ -25,12 +32,7 @@ class LLMTranscriptAnalyzer:
         self.safety = self.SafetyAndReferrals(self)
         self.composite = self.CompositeMetrics(self)
 
-    # === Shared Utility ===
-    def _count_keywords(self, text, keywords):
-        """Shared keyword counter for all sub-analyzers (case-insensitive)."""
-        text = text.lower()
-        return sum(len(re.findall(re.escape(kw), text)) for kw in keywords)
-
+    # Shared Utility
     def analyze(self):
         """Run all sub-analyzers and compute composite metrics."""
         self.empathy.analyze()
@@ -40,10 +42,7 @@ class LLMTranscriptAnalyzer:
         self.composite.analyze()
         return self.summary()
 
-    # ==========================
-    # === Nested Sub-Classes ===
-    # ==========================
-
+    # Nested Sub-Classes
     class EmpathyAndEngagement:
         def __init__(self, parent):
             self.parent = parent
