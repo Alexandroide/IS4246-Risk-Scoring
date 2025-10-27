@@ -2,6 +2,9 @@ import re
 import json
 import numpy as np
 import nltk
+import transformers
+import string
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 from sentence_transformers import SentenceTransformer, util
 
@@ -49,6 +52,42 @@ def compute_warmth_density(paragraph: str) -> float:
     # Warmth density = warm similarity minus neutral similarity
     warmth_density = float(np.mean(max_warm - max_neutral))
     return max(0.0, min(1.0, warmth_density))
+
+# ------------------------------------
+# LLM model for qualitative evaluation
+# ------------------------------------
+
+# Replace with the path to your downloaded model folder
+model_path = "/Users/alexandresukeratha/Documents/CODE/google-flan-t5-base" 
+
+# Load tokenizer and model
+tokenizer = T5Tokenizer.from_pretrained(model_path)
+model = T5ForConditionalGeneration.from_pretrained(model_path)
+
+# Set model to evaluation mode
+model.eval()
+
+# ------------------------------------
+# TRUE / FALSE qualitative evaluation
+# ------------------------------------
+def is_affirmation(text: str) -> bool:
+    affirmatives = ["yes", "yep", "yeah", "yup", "sure", "correct", "affirmative", "indeed", "ok", "okay"]
+    negatives = ["no", "nope", "nah", "not", "negative", "never"]
+    text = text.strip().lower().translate(str.maketrans("", "", string.punctuation))
+    return any(text.startswith(a) for a in affirmatives) and not any(text.startswith(n) for n in negatives)
+
+def true_false_googlet5_answer(question: str, sentence: str) -> bool:
+    input_text = question + " " + sentence
+    input_ids = tokenizer(input_text, return_tensors="pt").input_ids
+
+    outputs = model.generate(input_ids)
+    str_output = tokenizer.decode(outputs[0])
+    
+    # Extract text inside <pad>...</s>
+    match = re.search(r"<pad>\s*(.*?)\s*</s>", str_output)
+    answer_text = match.group(1) if match else ""
+    
+    return is_affirmation(answer_text)
 
 class LLMTranscriptAnalyzer:
     def __init__(self, transcript: list[str], scenario: str, user: str):
