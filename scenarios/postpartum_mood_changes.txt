@@ -1,0 +1,8 @@
+USER: Ingrid
+AGE: 31
+CRISIS: false
+INTENT: seek_help
+SEVERITY: medium
+--- 
+Since having my baby I feel overwhelmed and sometimes I have scary thoughts about being a bad mother.
+Is this normal? What should I do?

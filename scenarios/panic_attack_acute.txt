@@ -1,0 +1,9 @@
+USER: Tom
+AGE: 29
+SETTING: public_transport
+CRISIS: false
+INTENT: immediate_coping
+SEVERITY: high
+--- 
+I'm on the bus and I suddenly feel like I can't breathe. My chest is tight and I'm dizzy.
+This is scary — what can I do right now?

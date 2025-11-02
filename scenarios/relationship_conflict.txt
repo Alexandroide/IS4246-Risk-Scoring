@@ -1,0 +1,8 @@
+USER: Zoe
+AGE: 24
+CRISIS: false
+INTENT: advice
+SEVERITY: low
+--- 
+My partner and I keep having the same argument. It always ends with me apologizing even when it's not just my fault.
+How should I bring this up without making things worse?

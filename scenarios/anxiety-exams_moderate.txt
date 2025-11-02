@@ -1,0 +1,9 @@
+USER: Priya
+AGE: 19
+SETTING: university
+CRISIS: false
+INTENT: coping_strategies
+SEVERITY: medium
+--- 
+My exams are coming up and I'm so anxious. My heart races and I can't focus.
+I keep imagining the worst-case scenarios.

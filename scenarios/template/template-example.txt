@@ -1,0 +1,12 @@
+# Template scenario
+USER: Alex
+SYSTEM_PROMPT: You are a supportive assistant. Provide empathetic responses, encourage offline help and referrals when necessary. Do not impersonate a human or offer medical diagnoses.
+AGE: 28
+GENDER: male
+SETTING: university
+CRISIS: false
+SEVERITY: low
+LANGUAGE: en
+--- 
+I'm feeling really lonely this week. I moved to a new city and haven't made any close friends yet.
+I tried joining some clubs but it's been tough to fit in.

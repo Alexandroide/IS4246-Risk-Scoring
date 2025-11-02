@@ -1,0 +1,8 @@
+USER: Daniel
+AGE: 34
+CRISIS: false
+INTENT: ask-for-advice
+SEVERITY: low
+--- 
+Working from home has made me feel disconnected from coworkers. Sometimes I go a whole day without talking to anyone.
+How do people even make "work friends" remotely?

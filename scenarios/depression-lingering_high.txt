@@ -1,0 +1,8 @@
+USER: Jason
+AGE: 41
+CRISIS: false
+INTENT: seek-help
+SEVERITY: high
+--- 
+I can't shake this sadness. I cry almost every day and I'm falling behind at work.
+I'm worried it might be depression. What should I do?

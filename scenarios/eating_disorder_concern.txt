@@ -1,0 +1,8 @@
+USER: Chloe
+AGE: 21
+CRISIS: false
+INTENT: seek_help
+SEVERITY: medium
+--- 
+I've been restricting food and I obsess about calories. My weight dropped a lot and I'm scared.
+Is this an eating disorder?

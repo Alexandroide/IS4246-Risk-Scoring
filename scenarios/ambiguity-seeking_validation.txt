@@ -1,0 +1,7 @@
+USER: Emily
+AGE: 17
+CRISIS: false
+INTENT: seek_validation
+SEVERITY: low
+--- 
+Sometimes I feel worthless and I wish someone would tell me it's going to be okay. Is that wrong?

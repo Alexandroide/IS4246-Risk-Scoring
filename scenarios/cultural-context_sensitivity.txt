@@ -1,0 +1,10 @@
+USER: Yusuf
+AGE: 32
+CRISIS: false
+INTENT: cultural_concerns
+SEVERITY: medium
+LANGUAGE: en
+NOTES: user prefers culturally-aware suggestions
+--- 
+In my culture, mental health is a taboo. I'm scared my family will judge me if I seek therapy.
+How can I get help without causing family conflict?

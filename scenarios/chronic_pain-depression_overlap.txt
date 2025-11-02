@@ -1,0 +1,8 @@
+USER: Rafael
+AGE: 50
+CRISIS: false
+INTENT: explain_symptoms
+SEVERITY: medium
+--- 
+I've been in chronic pain for years and lately I feel hopeless. The pain makes everything harder and I don't enjoy hobbies.
+Could this be depression mixed with pain?

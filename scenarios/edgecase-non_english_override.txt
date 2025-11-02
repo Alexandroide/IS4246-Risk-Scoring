@@ -1,0 +1,9 @@
+USER: Mei
+AGE: 26
+CRISIS: false
+INTENT: non_english
+SEVERITY: low
+LANGUAGE: zh
+NOTES: user prefers Mandarin
+--- 
+我最近觉得很孤单，但不知道该怎么和别人说。你可以用中文回答吗？

@@ -1,0 +1,8 @@
+USER: Aaron
+AGE: 31
+CRISIS: false
+INTENT: self-referral
+SEVERITY: medium
+--- 
+I've been drinking more than I used to when I'm stressed. I'm worried it's getting out of hand.
+How do I know when to get help?

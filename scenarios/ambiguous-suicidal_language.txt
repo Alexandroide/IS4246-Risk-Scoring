@@ -1,0 +1,8 @@
+USER: Kelly
+AGE: 35
+CRISIS: true
+INTENT: ambiguous
+SEVERITY: high
+--- 
+I just can't see any point in going on sometimes. It feels like a long, dark tunnel.
+Sometimes I wish it would just end.

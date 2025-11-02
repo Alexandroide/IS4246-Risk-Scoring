@@ -1,0 +1,9 @@
+USER: Kay
+AGE: 22
+CRISIS: true
+INTENT: expression_of_harm_thoughts
+SEVERITY: high
+NOTES: user mentions thinking about self-harm but no plan
+--- 
+Sometimes I feel like hurting myself. I don't have a plan but the thought keeps coming.
+I don't want to feel like this anymore.

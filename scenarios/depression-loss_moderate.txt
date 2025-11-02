@@ -1,0 +1,8 @@
+USER: Sara
+AGE: 27
+CRISIS: false
+INTENT: describe_symptoms
+SEVERITY: medium
+--- 
+I've been feeling low for months since my breakup. I don't enjoy things I used to.
+Some days I can't get out of bed and I feel guilty about it.

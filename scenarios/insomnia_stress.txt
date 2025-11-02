@@ -1,0 +1,8 @@
+USER: Omar
+AGE: 38
+CRISIS: false
+INTENT: seek-advice
+SEVERITY: medium
+--- 
+I haven't slept well for weeks. At night my mind just keeps racing about things at work.
+Any tips to wind down and actually fall asleep?

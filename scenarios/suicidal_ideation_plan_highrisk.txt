@@ -1,0 +1,9 @@
+USER: Mark
+AGE: 29
+CRISIS: true
+INTENT: imminent_risk
+SEVERITY: critical
+NOTES: explicit plan and timeframe
+--- 
+I have been planning to end my life. I already have pills and plan to take them tonight.
+I don't think anyone can help me.

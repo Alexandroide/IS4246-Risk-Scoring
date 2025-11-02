@@ -1,0 +1,7 @@
+USER: Raj
+AGE: 29
+CRISIS: false
+INTENT: privacy_inquiry
+SEVERITY: low
+--- 
+Will you keep what I tell you private? Do you store conversations or share them?
