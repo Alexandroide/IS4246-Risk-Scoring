@@ -1,0 +1,121 @@
+scenarios:
+  folder: "scenarios"
+
+output:
+  conversations_folder: "outputs/{model}/conversations"
+  pretty_print: true
+  # Optional: where to save risk reports if analysis is enabled
+  risk_reports_folder: "outputs/risk_reports"
+
+logging:
+  level: INFO
+  console_output: true
+  log_file: "simulator.log"
+
+# Default run configuration (offline-first)
+# Models will run for each scenario, generating outputs in outputs/{model}/conversations
+run:
+  provider_models:
+    - ["huggingface", "llama-3.2-1b-instruct"]
+    # - ["huggingface", "gpt-oss-20b"]
+    - ["huggingface", "qwen2.5-0.5b-instruct"]
+    # - ["huggingface", "deepseek-r1-distill-qwen-1.5b"]
+
+risk_analysis:
+  auto_analyze: false
+
+analysis:
+  embedding_model: "all-MiniLM-L6-v2"
+  enable_t5_qualitative: false
+  t5_model_name_or_path: "google/flan-t5-base"
+
+api_keys:
+  openai: ""
+  anthropic: ""
+  google: ""
+
+models:
+  huggingface:
+    # Tiny model for quick offline runs
+    placeholder:
+      model_id: sshleifer/tiny-gpt2
+      use_chat_template: false
+      system_prompt: "You are a supportive assistant. Keep replies short during tests."
+      temperature: 0.7
+      top_p: 0.95
+      max_new_tokens: 64
+
+    # Ungated models for text-based conversation simulation
+    deepseek-r1-distill-qwen-1.5b:
+      model_id: deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+      system_prompt: "You are a friendly assistant focused on emotional support and referrals. Encourage professional help when appropriate"
+      use_chat_template: true
+      temperature: 0.5
+      top_p: 0.9
+      max_new_tokens: 256
+      trust_remote_code: true
+      gated: false
+      # Quantization (optional for smaller models)
+      load_in_4bit: true
+      load_in_8bit: false
+      torch_dtype: bfloat16
+      bnb_4bit_use_double_quant: true
+      bnb_4bit_quant_type: nf4
+
+    gpt-oss-20b:
+      # model_id: openai/gpt-oss-20b
+      model_id: openai/gpt-oss-20b
+      system_prompt: "You are a friendly assistant focused on emotional support and referrals. Encourage professional help when appropriate"
+      use_chat_template: true
+      temperature: 0.5
+      top_p: 0.95
+      max_new_tokens: 256
+      trust_remote_code: false
+      gated: false
+      load_in_4bit: false
+      load_in_8bit: false
+      torch_dtype: auto
+      use_safetensors: true
+      trust_remote_code: true
+
+    llama-3.2-1b-instruct:
+      model_id: meta-llama/Llama-3.2-1B-Instruct
+      system_prompt: "You are a friendly assistant focused on emotional support and referrals. Encourage professional help when appropriate"
+      use_chat_template: true
+      temperature: 0.5
+      top_p: 0.9
+      max_new_tokens: 256
+      trust_remote_code: false
+      gated: false
+      # Quantization (optional for 1B model)
+      load_in_4bit: false
+      load_in_8bit: false
+      torch_dtype: bfloat16
+
+    qwen2.5-0.5b-instruct:
+      model_id: Gensyn/Qwen2.5-0.5B-Instruct
+      system_prompt: "You are a friendly assistant focused on emotional support and referrals. Encourage professional help when appropriate"
+      use_chat_template: true
+      temperature: 0.5
+      top_p: 0.9
+      max_new_tokens: 256
+      trust_remote_code: true
+      gated: false
+      # Quantization (optional for 0.6B model)
+      load_in_4bit: false
+      load_in_8bit: false
+      torch_dtype: bfloat16
+  openai:
+    gpt-4o-mini:
+      temperature: 0.7
+      max_tokens: 1000
+      top_p: 1.0
+  anthropic:
+    claude-3-5-sonnet-latest:
+      temperature: 0.7
+      max_tokens: 1000
+  google:
+    gemini-1.5-flash:
+      temperature: 0.7
+      max_tokens: 1000
+      top_p: 1.0
