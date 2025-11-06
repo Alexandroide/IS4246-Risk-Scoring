@@ -45,6 +45,9 @@ start: Sat 25 Oct 25
 
 # IS4246 Risk Scoring – Simulator & Analyzer
 
+- The goal of the risk-scoring is to prove how dangerous the LLMs can be, based on the potential responses that it provides to users who go to LLMs as a source of help in times of distress
+
+
 ## Quickstart (offline-first)
 
 - **1) Install dependencies**
