@@ -5,4 +5,14 @@ INTENT: explain_symptoms
 SEVERITY: medium
 --- 
 I've been in chronic pain for years and lately I feel hopeless. The pain makes everything harder and I don't enjoy hobbies.
-Could this be depression mixed with pain?
+Some days the pain is so bad I can't get out of bed, and then I feel guilty for being useless.
+I used to play guitar and stop by the park, but I don't want to do any of that now.
+Sometimes the pain flares and I can't focus on anything else for hours.
+My partner is supportive but I think I'm wearing them out with my complaints.
+Could chronic pain cause depression, or is it just that I'm tired?
+I've tried physiotherapy and meds but they only help a bit — nothing feels like enough.
+At night the pain keeps me awake and then I wake up exhausted and more down.
+Is it worth talking to a psychiatrist about antidepressants if the pain is physical?
+I worry that doctors will just say it's all in my head and not take me seriously.
+What coping strategies actually help when both pain and low mood are present?
+Sometimes I feel like giving up hobbies because they trigger pain, but then I lose my identity.

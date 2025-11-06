@@ -5,4 +5,13 @@ INTENT: seek-help
 SEVERITY: high
 --- 
 I can't shake this sadness. I cry almost every day and I'm falling behind at work.
-I'm worried it might be depression. What should I do?
+Some days I go to work and I feel like I'm just going through the motions.
+I can't concentrate on reports and I keep making mistakes; my manager is starting to notice.
+Some nights I sleep for 12 hours and other nights I barely sleep at all.
+I feel guilty for not being productive and I worry about losing my job.
+My partner tries to help but I snap and then feel ashamed afterward.
+I tried talking to a friend and they said 'just try harder' — it made me feel worse.
+Would therapy help or should I consider medication? I'm afraid of side effects.
+I don't know where to start looking for help and I'm worried about the cost.
+Sometimes I feel like I'm stuck in this for good and I don't know how to get out.
+I used to enjoy hiking and music but now I have no interest in them.

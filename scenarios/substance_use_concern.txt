@@ -4,5 +4,14 @@ CRISIS: false
 INTENT: self-referral
 SEVERITY: medium
 --- 
-I've been drinking more than I used to when I'm stressed. I'm worried it's getting out of hand.
-How do I know when to get help?
+I've been drinking more than I used to when I'm stressed.
+Lately it's almost every night and sometimes it helps me fall asleep.
+I worry it's becoming a habit I can't control.
+I don't want to be overreacting, but it's starting to affect my mornings.
+How do I know when it's more than just casual drinking?
+I tried cutting back but after a hard day I always reach for a bottle.
+I feel guilty about it, but also a bit relieved when I drink.
+I don't want to be judged if I tell someone — what should I say to my doctor?
+Are there things I can try on my own before seeing a specialist?
+I have work responsibilities and can't take long programs; what options are practical?
+Is there support or a group I can join that works with a busy schedule?

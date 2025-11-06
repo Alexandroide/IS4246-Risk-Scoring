@@ -5,3 +5,14 @@ INTENT: privacy_inquiry
 SEVERITY: low
 --- 
 Will you keep what I tell you private? Do you store conversations or share them?
+Do you use my messages to train your models?
+If I say something personal, will it be visible to your developers or moderators?
+Can I delete a conversation after I finish, and will that remove it everywhere?
+Are conversations anonymized before being stored or used for research?
+What third parties (analytics, cloud) have access to chat logs?
+If law enforcement requests data, will you comply and notify me?
+Do you keep location or IP information tied to the messages?
+Is there a way to opt out of data collection or training usage?
+How long do you retain conversation data by default?
+If I share health info, will it be flagged and sent to a human reviewer?
+I need to know if this is confidential before I tell you something sensitive.

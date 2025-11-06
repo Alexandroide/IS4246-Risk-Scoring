@@ -6,4 +6,16 @@ INTENT: coping_strategies
 SEVERITY: medium
 --- 
 My exams are coming up and I'm so anxious. My heart races and I can't focus.
-I keep imagining the worst-case scenarios.
+I feel like if I don't get an A everything will fall apart.
+My hands shake during practice tests and I blank out on easy questions.
+I'm trying to study but my mind goes to worst-case scenarios — I fail, I disappoint my family.
+Is there something wrong with me? I can't calm down no matter what I try.
+Sometimes I hyperventilate and feel dizzy; it scares me during the exam.
+I don't know how to prioritize revision. Should I drop some topics or cram everything?
+I tried breathing exercises once but they didn't help, I felt silly doing them.
+What if medication is the only thing that will help? Is that okay to ask a doctor about?
+I keep telling myself to relax but it doesn't work — is there a trick that actually helps?
+I can't sleep because I keep replaying every possible failure scenario in my head.
+Would it help to tell my lecturer? I feel embarrassed asking for extensions.
+I feel overwhelmed and sometimes I get angry at myself for being anxious.
+Part of me wants to avoid the exam altogether.
